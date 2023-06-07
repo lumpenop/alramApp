@@ -1,13 +1,25 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { SafeAreaView, StatusBar, View } from 'react-native';
+import Main from './src/screens/main';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import colors from './src/theme/colors';
 
 interface Props {}
 
 const App: React.FC<Props> = () => {
   return (
-    <View>
-      <Text>App hi</Text>
-    </View>
+    <>
+      <StatusBar barStyle={'light-content'} backgroundColor={'transparent'} />
+      <View
+        style={{
+          height: getStatusBarHeight(),
+          backgroundColor: colors.black,
+        }}
+      />
+      <SafeAreaView style={{ flex: 1 }}>
+        <Main />
+      </SafeAreaView>
+    </>
   );
 };
 

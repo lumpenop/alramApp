@@ -413,6 +413,13 @@ PODS:
     - React-jsi (= 0.71.9)
     - React-logger (= 0.71.9)
     - React-perflogger (= 0.71.9)
+  - RNDateTimePicker (7.1.0):
+    - React-Core
+  - RNSound (0.11.2):
+    - React-Core
+    - RNSound/Core (= 0.11.2)
+  - RNSound/Core (0.11.2):
+    - React-Core
   - SocketRocket (0.6.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -477,6 +484,8 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNSound (from `../node_modules/react-native-sound`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -564,6 +573,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -614,6 +627,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: 2dd0f31c4bd4294861a227e5cc12163e0c74b623
   React-runtimeexecutor: daf24a52db50b4d9af59d6b2295e70c5dd99da50
   ReactCommon: ae1d021a0416d97e4c7ff9761d684c7eac504b18
+  RNDateTimePicker: 7ecd54a97fc3749f38c3c89a171f6cbd52f3c142
+  RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 540948b36b46e9469992c4d30ddcc21110b8afe5
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
