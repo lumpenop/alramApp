@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import text from '../theme/text';
 
-interface Props {}
+interface Props {
+  setIsModalOn: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const AlarmHeader: React.FC<Props> = () => {
+const AlarmHeader: React.FC<Props> = ({ setIsModalOn }) => {
   return (
     <View
       style={{
@@ -14,8 +16,12 @@ const AlarmHeader: React.FC<Props> = () => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         paddingHorizontal: 10,
       }}>
-      <Text style={[text.highlightText, { fontSize: 16 }]}>편집</Text>
-      <Text style={[text.highlightText, { fontSize: 28 }]}>+</Text>
+      <TouchableOpacity>
+        <Text style={[text.highlightText, { fontSize: 16 }]}>편집</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => setIsModalOn(true)}>
+        <Text style={[text.highlightText, { fontSize: 28 }]}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 };

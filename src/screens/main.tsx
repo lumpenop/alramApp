@@ -5,6 +5,7 @@ import text from 'src/theme/text';
 import AlarmItem from 'src/components/alarm.item';
 import AlarmHeader from 'src/components/alarm.header';
 import { alarmData } from 'src/config/alarms';
+import DetailModal from './detail.modal';
 
 interface Props {}
 
@@ -17,6 +18,7 @@ export interface IData {
 
 const Main: React.FC<Props> = () => {
   const [alarms, setAlarms] = React.useState<IData[]>(alarmData);
+  const [isDetailModalOn, setIsDetailModalOn] = React.useState<boolean>(false);
 
   const toggleSwitch = (index: number) => {
     setAlarms(prev => {
@@ -37,7 +39,8 @@ const Main: React.FC<Props> = () => {
         backgroundColor: colors.black,
         paddingTop: 10,
       }}>
-      <AlarmHeader />
+      <AlarmHeader setIsModalOn={setIsDetailModalOn} />
+      <DetailModal isModalOn={isDetailModalOn} />
       <ScrollView style={{ flex: 10 }}>
         <View style={{ gap: 14, paddingHorizontal: 10, paddingTop: 10 }}>
           <View>
