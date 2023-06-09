@@ -5,6 +5,7 @@ import {
   Modal,
   SafeAreaView,
   TouchableOpacity,
+  Switch,
 } from 'react-native';
 import colors from '../theme/colors';
 import text from '../theme/text';
@@ -19,13 +20,6 @@ interface Props {
   setIsModalOn: React.Dispatch<React.SetStateAction<boolean>>;
   addAlarm: (newAlarms: IAlarm) => void;
 }
-
-const options = [
-  { title: '반복', state: '안 함' },
-  { title: '레이블', state: '알람' },
-  { title: '사운드', state: '전파' },
-  { title: '다시 알림', state: 'on' },
-];
 
 const DetailModal: React.FC<Props> = ({
   isModalOn,
@@ -42,6 +36,49 @@ const DetailModal: React.FC<Props> = ({
     sound: '',
     snooze: '',
   });
+  const [isSnooze, setIsSnooze] = React.useState<boolean>(false);
+
+  const options = [
+    {
+      title: '반복 >',
+      state: (
+        <TouchableOpacity style={{ paddingRight: 14 }}>
+          <Text style={text.basicText}>안 함</Text>
+        </TouchableOpacity>
+      ),
+    },
+    {
+      title: '레이블',
+      state: (
+        <TouchableOpacity style={{ paddingRight: 14 }}>
+          <Text style={text.basicText}>알람</Text>
+        </TouchableOpacity>
+      ),
+    },
+    {
+      title: '사운드 >',
+      state: (
+        <TouchableOpacity style={{ paddingRight: 14 }}>
+          <Text style={text.basicText}>전파</Text>
+        </TouchableOpacity>
+      ),
+    },
+    {
+      title: '다시 알림',
+      state: (
+        <TouchableOpacity>
+          <Switch
+            trackColor={{ false: '#3e3e3e', true: '#81b0ff' }}
+            thumbColor={isSnooze ? '#f5dd4b' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={setIsSnooze}
+            value={isSnooze}
+            style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
+          />
+        </TouchableOpacity>
+      ),
+    },
+  ];
 
   const makeToStringTime = (selectedTime: Date) => {
     const toStingTime = selectedTime.toLocaleTimeString('ko-KR', {
@@ -147,12 +184,11 @@ const DetailModal: React.FC<Props> = ({
                       width: '100%',
                       paddingVertical: 14,
                       borderBottomWidth: index !== options.length - 1 ? 1 : 0,
-                      borderColor: '#555',
+                      borderColor: '#333',
                     }}>
                     <Text style={text.basicText}>{item.title}</Text>
-                    <Text style={[text.basicText, { paddingRight: 12 }]}>
-                      {item.state}
-                    </Text>
+
+                    {item.state}
                   </View>
                 );
               })}
