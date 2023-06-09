@@ -127,6 +127,9 @@ const DetailModal: React.FC<Props> = ({
               mode={'time'}
               value={timeValue}
               onChange={onChange}
+              display="spinner"
+              textColor="#ececec"
+              is24Hour={false}
             />
             <View
               style={{
