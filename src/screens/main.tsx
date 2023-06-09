@@ -48,11 +48,31 @@ const Main: React.FC<Props> = () => {
     }
   };
 
+  const meridiemTime = (time: string, meridiem: string) => {
+    if (meridiem === '오전') {
+      return time;
+    }
+    const splitTime = time.split(':');
+    return `${Number(splitTime) + 12}:${splitTime[1]}`;
+  };
+
   const addAlarm = (alarm: IAlarm) => {
     setAlarms(prev => {
       const newAlarms = [...prev, alarm];
-      _storeData(newAlarms).then();
-      return newAlarms;
+      const sortAlarms = newAlarms.sort((a, b) => {
+        const aTime = meridiemTime(a.time, a.meridiem);
+        const bTime = meridiemTime(b.time, b.meridiem);
+        if (aTime > bTime) {
+          return 1;
+        }
+        if (aTime < bTime) {
+          return -1;
+        }
+        return 0;
+      });
+      console.log(sortAlarms.map(item => item.time));
+      _storeData(sortAlarms).then();
+      return sortAlarms;
     });
   };
 
