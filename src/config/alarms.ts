@@ -1,28 +1,40 @@
-import { IData } from '../screens/main';
+import { IAlarm } from '../screens/main';
 
-export const alarmData: IData[] = [
+export const alarmData: IAlarm[] = [
   {
-    MNA: '오전',
-    time: '09:40',
-    day: '화목토일',
-    on: true,
+    label: '알람',
+    meridiem: '오전',
+    time: '9:40',
+    repeatDay: ['화목토일'],
+    isOn: true,
+    snooze: '',
+    sound: '',
   },
   {
-    MNA: '오전',
-    time: '09:40',
-    day: '화목토일',
-    on: true,
+    label: '알람',
+    meridiem: '오전',
+    time: '9:40',
+    repeatDay: ['화목토일'],
+    isOn: true,
+    snooze: '',
+    sound: '',
   },
   {
-    MNA: '오전',
-    time: '09:40',
-    day: '화목토일',
-    on: true,
+    label: '알람',
+    meridiem: '오전',
+    time: '9:40',
+    repeatDay: ['화목토일'],
+    isOn: true,
+    snooze: '',
+    sound: '',
   },
   {
-    MNA: '오전',
-    time: '09:40',
-    day: '화목토일',
-    on: true,
+    label: '알람',
+    meridiem: '오전',
+    time: '9:40',
+    repeatDay: ['화목토일'],
+    isOn: true,
+    snooze: '',
+    sound: '',
   },
 ];

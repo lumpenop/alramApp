@@ -6,32 +6,69 @@ import AlarmItem from 'src/components/alarm.item';
 import AlarmHeader from 'src/components/alarm.header';
 import { alarmData } from 'src/config/alarms';
 import DetailModal from './detail.modal';
+import AsyncStorage from '@react-native-community/async-storage';
 
 interface Props {}
 
-export interface IData {
-  MNA: string;
-  on: boolean;
+export interface IAlarm {
+  label: string;
+  meridiem: string;
+  isOn: boolean;
   time: string;
-  day: string;
+  repeatDay: string[];
+  sound: string;
+  snooze: string;
 }
 
 const Main: React.FC<Props> = () => {
-  const [alarms, setAlarms] = React.useState<IData[]>(alarmData);
+  const [alarms, setAlarms] = React.useState<IAlarm[]>(alarmData);
   const [isDetailModalOn, setIsDetailModalOn] = React.useState<boolean>(false);
 
   const toggleSwitch = (index: number) => {
     setAlarms(prev => {
       const newPrev = [...prev];
       newPrev[index] = {
-        MNA: '오전',
-        on: !prev[index].on,
-        time: '09:50',
-        day: '월화수목',
+        ...newPrev[index],
+        isOn: !prev[index].isOn,
       };
       return newPrev;
     });
   };
+
+  React.useEffect(() => {
+    AsyncStorage.clear();
+    _retrieveData().then();
+  }, []);
+
+  const _storeData = async (newAlarms: IAlarm[]) => {
+    try {
+      await AsyncStorage.setItem('alarms', JSON.stringify(newAlarms));
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  const addAlarm = (alarm: IAlarm) => {
+    setAlarms(prev => {
+      const newAlarms = [...prev, alarm];
+      _storeData(newAlarms).then();
+      return newAlarms;
+    });
+  };
+
+  const _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('alarms');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+        setAlarms(JSON.parse(value));
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
   return (
     <View
       style={{
@@ -40,7 +77,11 @@ const Main: React.FC<Props> = () => {
         paddingTop: 10,
       }}>
       <AlarmHeader setIsModalOn={setIsDetailModalOn} />
-      <DetailModal isModalOn={isDetailModalOn} />
+      <DetailModal
+        isModalOn={isDetailModalOn}
+        setIsModalOn={setIsDetailModalOn}
+        addAlarm={addAlarm}
+      />
       <ScrollView style={{ flex: 10 }}>
         <View style={{ gap: 14, paddingHorizontal: 10, paddingTop: 10 }}>
           <View>
@@ -55,6 +96,7 @@ const Main: React.FC<Props> = () => {
                 borderBottomWidth: 1,
                 justifyContent: 'center',
                 paddingBottom: 10,
+                borderColor: '#303030',
               }}>
               <Text style={[text.basicText]}>기타</Text>
             </View>
@@ -62,7 +104,7 @@ const Main: React.FC<Props> = () => {
               return (
                 <AlarmItem
                   key={index}
-                  isAlarmOn={item.on}
+                  alarm={item}
                   toggleSwitch={() => toggleSwitch(index)}
                 />
               );
