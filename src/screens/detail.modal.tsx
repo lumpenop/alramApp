@@ -47,7 +47,6 @@ const DetailModal: React.FC<Props> = ({
     const toStingTime = selectedTime.toLocaleTimeString('ko-KR', {
       hour: '2-digit',
       minute: 'numeric',
-      timeZone: 'UTC',
     });
     const splitTime = toStingTime.split(' ');
 
