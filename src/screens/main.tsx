@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import colors from 'src/theme/colors';
-import text from 'src/theme/text';
-import AlarmItem from 'src/components/alarm.item';
-import AlarmHeader from 'src/components/alarm.header';
+import text from 'src/theme/text.theme';
+import MainItem from 'src/components/main/main.item';
+import MainHeader from 'src/components/main/main.header';
 import { alarmData } from 'src/config/alarms';
 import DetailModal from './detail.modal';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -59,7 +59,7 @@ const Main: React.FC<Props> = () => {
   const addAlarm = (alarm: IAlarm) => {
     setAlarms(prev => {
       const newAlarms = [...prev, alarm];
-      const sortAlarms = newAlarms.sort((a, b) => {
+      newAlarms.sort((a, b) => {
         const aTime = meridiemTime(a.time, a.meridiem);
         const bTime = meridiemTime(b.time, b.meridiem);
         if (aTime > bTime) {
@@ -70,9 +70,9 @@ const Main: React.FC<Props> = () => {
         }
         return 0;
       });
-      console.log(sortAlarms.map(item => item.time));
-      _storeData(sortAlarms).then();
-      return sortAlarms;
+
+      _storeData(newAlarms).then();
+      return newAlarms;
     });
   };
 
@@ -96,18 +96,16 @@ const Main: React.FC<Props> = () => {
         backgroundColor: colors.black,
         paddingTop: 10,
       }}>
-      <AlarmHeader setIsModalOn={setIsDetailModalOn} />
+      <MainHeader setIsModalOn={setIsDetailModalOn} />
       <DetailModal
         isModalOn={isDetailModalOn}
         setIsModalOn={setIsDetailModalOn}
         addAlarm={addAlarm}
       />
-      <ScrollView style={{ flex: 10 }}>
-        <View style={{ gap: 14, paddingHorizontal: 10, paddingTop: 10 }}>
-          <View>
+      <ScrollView style={{ flex: 10, paddingHorizontal: 4 }}>
+        <View style={{ gap: 14, paddingHorizontal: 4, paddingTop: 10 }}>
+          <View style={{ paddingLeft: 4, gap: 12 }}>
             <Text style={text.title}>알람</Text>
-          </View>
-          <View>
             <Text style={text.basicText}>수면 | 기상</Text>
           </View>
           <View style={{ gap: 8 }}>
@@ -117,12 +115,13 @@ const Main: React.FC<Props> = () => {
                 justifyContent: 'center',
                 paddingBottom: 10,
                 borderColor: '#303030',
+                paddingLeft: 4,
               }}>
               <Text style={[text.basicText]}>기타</Text>
             </View>
             {alarms.map((item, index) => {
               return (
-                <AlarmItem
+                <MainItem
                   key={index}
                   alarm={item}
                   toggleSwitch={() => toggleSwitch(index)}

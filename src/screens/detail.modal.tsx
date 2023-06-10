@@ -6,14 +6,18 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Switch,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import colors from '../theme/colors';
-import text from '../theme/text';
+import text from '../theme/text.theme';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 
 import { IAlarm } from './main';
+import DetailOptions from '../components/detail/detail.options';
+import DetailHeader from '../components/detail/detail.header';
 
 interface Props {
   isModalOn: boolean;
@@ -37,48 +41,6 @@ const DetailModal: React.FC<Props> = ({
     snooze: '',
   });
   const [isSnooze, setIsSnooze] = React.useState<boolean>(false);
-
-  const options = [
-    {
-      title: '반복 >',
-      state: (
-        <TouchableOpacity style={{ paddingRight: 14 }}>
-          <Text style={text.basicText}>안 함</Text>
-        </TouchableOpacity>
-      ),
-    },
-    {
-      title: '레이블',
-      state: (
-        <TouchableOpacity style={{ paddingRight: 14 }}>
-          <Text style={text.basicText}>알람</Text>
-        </TouchableOpacity>
-      ),
-    },
-    {
-      title: '사운드 >',
-      state: (
-        <TouchableOpacity style={{ paddingRight: 14 }}>
-          <Text style={text.basicText}>전파</Text>
-        </TouchableOpacity>
-      ),
-    },
-    {
-      title: '다시 알림',
-      state: (
-        <TouchableOpacity>
-          <Switch
-            trackColor={{ false: '#3e3e3e', true: '#81b0ff' }}
-            thumbColor={isSnooze ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={setIsSnooze}
-            value={isSnooze}
-            style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
-          />
-        </TouchableOpacity>
-      ),
-    },
-  ];
 
   const makeToStringTime = (selectedTime: Date) => {
     const toStingTime = selectedTime.toLocaleTimeString('ko-KR', {
@@ -130,71 +92,35 @@ const DetailModal: React.FC<Props> = ({
           justifyContent: 'flex-end',
           backgroundColor: 'rgba(0, 0, 0, 0.6 )',
         }}>
-        <View
+        <KeyboardAvoidingView
           style={{
             backgroundColor: '#000',
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
-          }}>
+          }}
+          behavior={'padding'}>
           <View
             style={{
               height: '91%',
-              paddingHorizontal: 20,
               marginTop: 28,
               gap: 20,
             }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setIsModalOn(false);
-                }}>
-                <Text style={text.highlightText}>취소</Text>
-              </TouchableOpacity>
-              <Text style={text.basicText}>알람 추가</Text>
-              <TouchableOpacity onPress={saveAlarm}>
-                <Text style={text.highlightText}>저장</Text>
-              </TouchableOpacity>
-            </View>
-            <DateTimePicker
-              mode={'time'}
-              value={timeValue}
-              onChange={onChange}
-              display="spinner"
-              textColor="#ececec"
-              is24Hour={false}
-            />
-            <View
-              style={{
-                alignItems: 'center',
-                borderRadius: 8,
-                backgroundColor: colors.black,
-                paddingLeft: 14,
-              }}>
-              {options.map((item, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '100%',
-                      paddingVertical: 14,
-                      borderBottomWidth: index !== options.length - 1 ? 1 : 0,
-                      borderColor: '#333',
-                    }}>
-                    <Text style={text.basicText}>{item.title}</Text>
-
-                    {item.state}
-                  </View>
-                );
-              })}
-            </View>
+            <DetailHeader setIsModalOn={setIsModalOn} saveAlarm={saveAlarm} />
+            <ScrollView
+              keyboardShouldPersistTaps={'handled'}
+              style={{ paddingHorizontal: 10 }}>
+              <DateTimePicker
+                mode={'time'}
+                value={timeValue}
+                onChange={onChange}
+                display="spinner"
+                textColor="#ececec"
+                is24Hour={false}
+              />
+              <DetailOptions isSnooze={isSnooze} setIsSnooze={setIsSnooze} />
+            </ScrollView>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </Modal>
   );

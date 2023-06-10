@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import text from '../theme/text';
+import text from '../../theme/text.theme';
 
 interface Props {
   setIsModalOn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AlarmHeader: React.FC<Props> = ({ setIsModalOn }) => {
+const MainHeader: React.FC<Props> = ({ setIsModalOn }) => {
   return (
     <View
       style={{
@@ -26,4 +26,4 @@ const AlarmHeader: React.FC<Props> = ({ setIsModalOn }) => {
   );
 };
 
-export default AlarmHeader;
+export default MainHeader;

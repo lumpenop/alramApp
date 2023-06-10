@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, Switch } from 'react-native';
-import text from '../theme/text';
-import { IAlarm } from '../screens/main';
+import textTheme from '../../theme/text.theme';
+import { IAlarm } from '../../screens/main';
 
 interface Props {
   alarm: IAlarm;
   toggleSwitch: () => void;
 }
 
-const AlarmItem: React.FC<Props> = ({ alarm, toggleSwitch }) => {
+const MainItem: React.FC<Props> = ({ alarm, toggleSwitch }) => {
   return (
     <View
       style={{
@@ -16,8 +16,9 @@ const AlarmItem: React.FC<Props> = ({ alarm, toggleSwitch }) => {
         justifyContent: 'center',
         borderBottomWidth: 1,
         borderColor: '#303030',
+        paddingLeft: 2,
       }}>
-      <Text style={[text.timeText, { fontSize: 14 }]}>{alarm.label}</Text>
+      <Text style={[textTheme.timeText, { fontSize: 14 }]}>{alarm.label}</Text>
       <View
         style={{
           flexDirection: 'row',
@@ -30,10 +31,12 @@ const AlarmItem: React.FC<Props> = ({ alarm, toggleSwitch }) => {
             gap: 4,
             alignItems: 'center',
           }}>
-          <Text style={[text.basicText, { fontSize: 18 }]}>
+          <Text style={[textTheme.basicText, { fontSize: 18 }]}>
             {alarm.meridiem}
           </Text>
-          <Text style={[text.timeText, { fontSize: 26 }]}>{alarm.time}</Text>
+          <Text style={[textTheme.timeText, { fontSize: 26 }]}>
+            {alarm.time}
+          </Text>
         </View>
         <Switch
           trackColor={{ false: '#3e3e3e', true: '#81b0ff' }}
@@ -41,14 +44,14 @@ const AlarmItem: React.FC<Props> = ({ alarm, toggleSwitch }) => {
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={alarm.isOn}
-          style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+          style={{ transform: [{ scaleX: 0.75 }, { scaleY: 0.7 }] }}
         />
       </View>
-      <Text style={[text.timeText, { fontSize: 12 }]}>
+      <Text style={[textTheme.timeText, { fontSize: 12 }]}>
         {alarm.repeatDay.length !== 0 ? alarm.repeatDay[0] : '화목토일'}
       </Text>
     </View>
   );
 };
 
-export default AlarmItem;
+export default MainItem;
