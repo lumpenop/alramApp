@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Vibration } from 'react-native';
 import colors from 'src/theme/colors';
 import text from 'src/theme/text.theme';
 import MainItem from 'src/components/main/main.item';
@@ -7,6 +7,7 @@ import MainHeader from 'src/components/main/main.header';
 import { alarmData } from 'src/config/alarms';
 import DetailModal from './detail.modal';
 import AsyncStorage from '@react-native-community/async-storage';
+import Sound from 'react-native-sound';
 
 interface Props {}
 
@@ -20,9 +21,57 @@ export interface IAlarm {
   snooze: string;
 }
 
+Sound.setCategory('Playback');
 const Main: React.FC<Props> = () => {
   const [alarms, setAlarms] = React.useState<IAlarm[]>(alarmData);
   const [isDetailModalOn, setIsDetailModalOn] = React.useState<boolean>(false);
+  // const ONE_SECOND_IN_MS = 1000;
+  // const PATTERN = [
+  //   1 * ONE_SECOND_IN_MS,
+  //   2 * ONE_SECOND_IN_MS,
+  //   3 * ONE_SECOND_IN_MS,
+  // ];
+  //
+  // const PATTERN_DESC = 'wait 1s, vibrate, wait 2s, vibrate, wait 3s';
+  type SoundFileType =
+    | 'iphone_alarm.mp3'
+    | 'galaxy_siren.mp3'
+    | 'marimba.mp3'
+    | 'morning_flower.mp3'
+    | 'original_iphone_alarm.mp3';
+
+  const playSound = (fileName: SoundFileType) => {
+    const sound = new Sound(fileName, Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log(
+        'duration in seconds: ' +
+          sound.getDuration() +
+          'number of channels: ' +
+          sound.getNumberOfChannels(),
+      );
+
+      // Play the sound with an onEnd callback
+      Vibration.vibrate();
+      console.log('vibe');
+      sound.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+        Vibration.cancel();
+        console.log('vibe cancel');
+      });
+    });
+  };
+
+  React.useEffect(() => {
+    playSound('marimba.mp3');
+  }, []);
 
   const toggleSwitch = (index: number) => {
     setAlarms(prev => {

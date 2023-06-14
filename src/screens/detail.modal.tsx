@@ -1,16 +1,12 @@
 import React from 'react';
 import {
   View,
-  Text,
   Modal,
   SafeAreaView,
-  TouchableOpacity,
-  Switch,
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import colors from '../theme/colors';
-import text from '../theme/text.theme';
+
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
@@ -19,11 +15,16 @@ import { IAlarm } from './main';
 import DetailOptions from '../components/detail/detail.options';
 import DetailHeader from '../components/detail/detail.header';
 
+import { ModalStackParamsType } from 'src/navigation/modal.stack.navigator';
+import { createStackNavigator } from '@react-navigation/stack';
+
 interface Props {
   isModalOn: boolean;
   setIsModalOn: React.Dispatch<React.SetStateAction<boolean>>;
   addAlarm: (newAlarms: IAlarm) => void;
 }
+
+const Stack = createStackNavigator<ModalStackParamsType>();
 
 const DetailModal: React.FC<Props> = ({
   isModalOn,
@@ -41,6 +42,9 @@ const DetailModal: React.FC<Props> = ({
     snooze: '',
   });
   const [isSnooze, setIsSnooze] = React.useState<boolean>(false);
+  const [label, setLabel] = React.useState<string>('알람');
+  const [sound, setSound] = React.useState<string>('전파');
+  const [repeat, setRepeat] = React.useState<string[]>(['안 함']);
 
   const makeToStringTime = (selectedTime: Date) => {
     const toStingTime = selectedTime.toLocaleTimeString('ko-KR', {
@@ -59,7 +63,7 @@ const DetailModal: React.FC<Props> = ({
         ...prev,
         meridiem,
         time,
-        repeatDay: prev.repeatDay.length !== 0 ? prev.repeatDay : ['반복 없음'],
+        repeatDay: prev.repeatDay.length !== 0 ? prev.repeatDay : ['안 함'],
       };
     });
   };
@@ -84,6 +88,41 @@ const DetailModal: React.FC<Props> = ({
     setIsModalOn(false);
   };
 
+  const ModalHome = () => {
+    return (
+      <View
+        style={{
+          height: '91%',
+          marginTop: 24,
+          gap: 20,
+        }}>
+        <DetailHeader setIsModalOn={setIsModalOn} saveAlarm={saveAlarm} />
+        <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          style={{ paddingHorizontal: 10 }}>
+          <DateTimePicker
+            mode={'time'}
+            value={timeValue}
+            onChange={onChange}
+            display="spinner"
+            textColor="#ececec"
+            is24Hour={false}
+          />
+          <DetailOptions
+            isSnooze={isSnooze}
+            setIsSnooze={setIsSnooze}
+            repeat={repeat}
+            setRepeat={setRepeat}
+            sound={sound}
+            setSound={setSound}
+            label={label}
+            setLabel={setLabel}
+          />
+        </ScrollView>
+      </View>
+    );
+  };
+
   return (
     <Modal visible={isModalOn} transparent animationType={'slide'}>
       <SafeAreaView
@@ -97,29 +136,13 @@ const DetailModal: React.FC<Props> = ({
             backgroundColor: '#000',
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
+            flex: 1,
           }}
           behavior={'padding'}>
-          <View
-            style={{
-              height: '91%',
-              marginTop: 28,
-              gap: 20,
-            }}>
-            <DetailHeader setIsModalOn={setIsModalOn} saveAlarm={saveAlarm} />
-            <ScrollView
-              keyboardShouldPersistTaps={'handled'}
-              style={{ paddingHorizontal: 10 }}>
-              <DateTimePicker
-                mode={'time'}
-                value={timeValue}
-                onChange={onChange}
-                display="spinner"
-                textColor="#ececec"
-                is24Hour={false}
-              />
-              <DetailOptions isSnooze={isSnooze} setIsSnooze={setIsSnooze} />
-            </ScrollView>
-          </View>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={'ModalHome'} component={ModalHome} />
+            <Stack.Screen name={'Repeat'} component={ModalHome} />
+          </Stack.Navigator>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </Modal>

@@ -13,6 +13,7 @@ const DetailHeader: React.FC<Props> = ({ saveAlarm, setIsModalOn }) => {
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingHorizontal: 14,
       }}>
       <TouchableOpacity
         onPress={() => {

@@ -3,25 +3,46 @@ import { View, Text, TouchableOpacity, Switch, TextInput } from 'react-native';
 import colors from '../../theme/colors';
 import textTheme from 'src/theme/text.theme';
 import RightChevron from 'src/asset/svgs/chevron-right.svg';
+import { useNavigation } from '@react-navigation/native';
+import { ModalStackParamsType } from '~/src/navigation/modal.stack.navigator';
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack';
 
 interface Props {
   isSnooze: boolean;
   setIsSnooze: React.Dispatch<React.SetStateAction<boolean>>;
+  label: string;
+  setLabel: React.Dispatch<React.SetStateAction<string>>;
+  sound: string;
+  setSound: React.Dispatch<React.SetStateAction<string>>;
+  repeat: string[];
+  setRepeat: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const DetailOptions: React.FC<Props> = ({ isSnooze, setIsSnooze }) => {
+const DetailOptions: React.FC<Props> = ({
+  isSnooze,
+  setIsSnooze,
+  repeat,
+  setRepeat,
+  setSound,
+  sound,
+  setLabel,
+  label,
+}) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<ModalStackParamsType>>();
   const options = [
     {
       title: '반복',
       state: (
         <TouchableOpacity
+          onPress={() => navigation.navigate('Repeat')}
           style={{
             paddingRight: 4,
             flexDirection: 'row',
             alignItems: 'center',
           }}
           activeOpacity={0.6}>
-          <Text style={textTheme.basicText}>안 함</Text>
+          <Text style={textTheme.basicText}>{repeat}</Text>
           <RightChevron color={textTheme.basicText.color} width={16} />
         </TouchableOpacity>
       ),
@@ -33,7 +54,7 @@ const DetailOptions: React.FC<Props> = ({ isSnooze, setIsSnooze }) => {
           <TextInput
             style={[textTheme.basicText]}
             placeholder={'알람'}
-            defaultValue={'알람'}
+            defaultValue={label}
           />
         </View>
       ),
@@ -48,7 +69,7 @@ const DetailOptions: React.FC<Props> = ({ isSnooze, setIsSnooze }) => {
             alignItems: 'center',
           }}
           activeOpacity={0.6}>
-          <Text style={textTheme.basicText}>전파</Text>
+          <Text style={textTheme.basicText}>{sound}</Text>
           <RightChevron color={textTheme.basicText.color} width={16} />
         </TouchableOpacity>
       ),
