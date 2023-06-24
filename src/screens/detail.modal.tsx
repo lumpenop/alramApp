@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  Text,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -14,17 +15,13 @@ import DateTimePicker, {
 import { IAlarm } from './main';
 import DetailOptions from '../components/detail/detail.options';
 import DetailHeader from '../components/detail/detail.header';
-
-import { ModalStackParamsType } from 'src/navigation/modal.stack.navigator';
-import { createStackNavigator } from '@react-navigation/stack';
+import RepeatModal from 'src/screens/repeat.modal';
 
 interface Props {
   isModalOn: boolean;
   setIsModalOn: React.Dispatch<React.SetStateAction<boolean>>;
   addAlarm: (newAlarms: IAlarm) => void;
 }
-
-const Stack = createStackNavigator<ModalStackParamsType>();
 
 const DetailModal: React.FC<Props> = ({
   isModalOn,
@@ -45,6 +42,7 @@ const DetailModal: React.FC<Props> = ({
   const [label, setLabel] = React.useState<string>('알람');
   const [sound, setSound] = React.useState<string>('전파');
   const [repeat, setRepeat] = React.useState<string[]>(['안 함']);
+  const [isRepeatModal, setIsRepeatModal] = React.useState<boolean>(false);
 
   const makeToStringTime = (selectedTime: Date) => {
     const toStingTime = selectedTime.toLocaleTimeString('ko-KR', {
@@ -88,61 +86,58 @@ const DetailModal: React.FC<Props> = ({
     setIsModalOn(false);
   };
 
-  const ModalHome = () => {
-    return (
-      <View
-        style={{
-          height: '91%',
-          marginTop: 24,
-          gap: 20,
-        }}>
-        <DetailHeader setIsModalOn={setIsModalOn} saveAlarm={saveAlarm} />
-        <ScrollView
-          keyboardShouldPersistTaps={'handled'}
-          style={{ paddingHorizontal: 10 }}>
-          <DateTimePicker
-            mode={'time'}
-            value={timeValue}
-            onChange={onChange}
-            display="spinner"
-            textColor="#ececec"
-            is24Hour={false}
-          />
-          <DetailOptions
-            isSnooze={isSnooze}
-            setIsSnooze={setIsSnooze}
-            repeat={repeat}
-            setRepeat={setRepeat}
-            sound={sound}
-            setSound={setSound}
-            label={label}
-            setLabel={setLabel}
-          />
-        </ScrollView>
-      </View>
-    );
-  };
-
   return (
     <Modal visible={isModalOn} transparent animationType={'slide'}>
+      <RepeatModal
+        isRepeatModal={isRepeatModal}
+        setIsRepeatModal={setIsRepeatModal}
+        setRepeat={setRepeat}
+      />
       <SafeAreaView
         style={{
           flex: 1,
-          justifyContent: 'flex-end',
           backgroundColor: 'rgba(0, 0, 0, 0.6 )',
+          justifyContent: 'flex-end',
         }}>
         <KeyboardAvoidingView
           style={{
-            backgroundColor: '#000',
+            height: '95%',
+            backgroundColor: 'black',
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
-            flex: 1,
           }}
           behavior={'padding'}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={'ModalHome'} component={ModalHome} />
-            <Stack.Screen name={'Repeat'} component={ModalHome} />
-          </Stack.Navigator>
+          <View
+            style={{
+              marginTop: 24,
+              gap: 20,
+              backgroundColor: 'black',
+              height: '91%',
+            }}>
+            <DetailHeader setIsModalOn={setIsModalOn} saveAlarm={saveAlarm} />
+            <ScrollView
+              keyboardShouldPersistTaps={'handled'}
+              style={{ paddingHorizontal: 10 }}>
+              <DateTimePicker
+                mode={'time'}
+                value={timeValue}
+                onChange={onChange}
+                display="spinner"
+                textColor="#ececec"
+                is24Hour={false}
+              />
+              <DetailOptions
+                isSnooze={isSnooze}
+                setIsSnooze={setIsSnooze}
+                repeat={repeat}
+                setRepeat={setRepeat}
+                sound={sound}
+                setSound={setSound}
+                label={label}
+                setLabel={setLabel}
+              />
+            </ScrollView>
+          </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </Modal>

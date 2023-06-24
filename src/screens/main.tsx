@@ -69,9 +69,9 @@ const Main: React.FC<Props> = () => {
     });
   };
 
-  React.useEffect(() => {
-    playSound('marimba.mp3');
-  }, []);
+  // React.useEffect(() => {
+  //   playSound('marimba.mp3');
+  // }, []);
 
   const toggleSwitch = (index: number) => {
     setAlarms(prev => {
