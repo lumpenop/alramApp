@@ -21,13 +21,13 @@ interface Props {
   addAlarm: (newAlarms: IAlarm) => void;
 }
 
-const defaultAlarm = {
+const defaultAlarm: IAlarm = {
   label: '',
   meridiem: '',
-  isOn: false,
+  isOn: true,
   time: '',
   repeatDay: '',
-  sound: '',
+  sound: 'iphone_alarm.mp3',
   snooze: '',
 };
 
@@ -55,8 +55,10 @@ const DetailModal: React.FC<Props> = ({
   const [alarm, setAlarm] = React.useState<IAlarm>(defaultAlarm);
 
   React.useEffect(() => {
-    setRepeat(defaultRepeat);
+    setTimeValue(new Date());
     setLabel('알람');
+    setSound('전파');
+    setRepeat(defaultRepeat);
   }, [isModalOn]);
 
   const makeToStringTime = (selectedTime: Date) => {

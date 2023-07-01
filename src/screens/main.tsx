@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ScrollView, Vibration } from 'react-native';
 import colors from 'src/theme/colors';
 import text from 'src/theme/text.theme';
@@ -8,6 +8,8 @@ import { alarmData } from 'src/config/alarms';
 import DetailModal from './detail.modal';
 import AsyncStorage from '@react-native-community/async-storage';
 import Sound from 'react-native-sound';
+import dayjs from 'dayjs';
+import { animationInterval } from '../common/hooks/animation.interval';
 
 interface Props {}
 
@@ -17,28 +19,22 @@ export interface IAlarm {
   isOn: boolean;
   time: string;
   repeatDay: string;
-  sound: string;
+  sound: SoundFileType;
   snooze: string;
 }
+
+export type SoundFileType =
+  | 'iphone_alarm.mp3'
+  | 'galaxy_siren.mp3'
+  | 'marimba.mp3'
+  | 'morning_flower.mp3'
+  | 'original_iphone_alarm.mp3';
 
 Sound.setCategory('Playback');
 const Main: React.FC<Props> = () => {
   const [alarms, setAlarms] = React.useState<IAlarm[]>(alarmData);
   const [isDetailModalOn, setIsDetailModalOn] = React.useState<boolean>(false);
-  // const ONE_SECOND_IN_MS = 1000;
-  // const PATTERN = [
-  //   1 * ONE_SECOND_IN_MS,
-  //   2 * ONE_SECOND_IN_MS,
-  //   3 * ONE_SECOND_IN_MS,
-  // ];
-  //
-  // const PATTERN_DESC = 'wait 1s, vibrate, wait 2s, vibrate, wait 3s';
-  type SoundFileType =
-    | 'iphone_alarm.mp3'
-    | 'galaxy_siren.mp3'
-    | 'marimba.mp3'
-    | 'morning_flower.mp3'
-    | 'original_iphone_alarm.mp3';
+  const [alarmSound, setAlarmSound] = React.useState<Sound | null>(null);
 
   const playSound = (fileName: SoundFileType) => {
     const sound = new Sound(fileName, Sound.MAIN_BUNDLE, error => {
@@ -67,11 +63,49 @@ const Main: React.FC<Props> = () => {
         console.log('vibe cancel');
       });
     });
+    setAlarmSound(sound);
   };
 
   // React.useEffect(() => {
   //   playSound('marimba.mp3');
   // }, []);
+
+  const time = animationInterval();
+  const day = time.day();
+  const hour = time.hour();
+  const minute = time.minute();
+
+  const dayObj = ['일', '월', '화', '수', '목', '금', '토', '안 함'];
+  useEffect(() => {
+    console.log(dayObj[day], hour, minute);
+    const dayAlarms = alarms.filter(item =>
+      item.repeatDay.split(' ').includes(dayObj[day]),
+    );
+
+    const filteredAlarms = dayAlarms.filter(item => item.isOn);
+
+    filteredAlarms.forEach(item => {
+      const meridiemTime = item.meridiem === '오후' ? 12 : 0;
+
+      if (`${hour + meridiemTime}:${minute}` === item.time) {
+        playSound(item.sound);
+      } else {
+        if (alarmSound) {
+          alarmSound.stop();
+        }
+      }
+    });
+
+    console.log(filteredAlarms);
+  }, [time]);
+  // const ONE_SECOND_IN_MS = 1000;
+  // const PATTERN = [
+  //   1 * ONE_SECOND_IN_MS,
+  //   2 * ONE_SECOND_IN_MS,
+  //   3 * ONE_SECOND_IN_MS,
+  // ];
+  //
+  // const PATTERN_DESC = 'wait 1s, vibrate, wait 2s, vibrate, wait 3s';
 
   const toggleSwitch = (index: number) => {
     setAlarms(prev => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, Switch, TextInput } from 'react-native';
 import colors from '../../theme/colors';
 import textTheme from 'src/theme/text.theme';
@@ -29,13 +29,15 @@ const DetailOptions: React.FC<Props> = ({
   setAlarm,
 }) => {
   const [isRepeatModalOn, setIsRepeatModalOn] = React.useState<boolean>(false);
-  const [repeatText, setRepeatText] = React.useState<string>('');
+  const [repeatText, setRepeatText] = React.useState<string>('안 함');
 
   const weekday = ['월', '화', '수', '목', '금'];
   const weekend = ['토', '일'];
 
   React.useEffect(() => {
     const repeatIsOn = Object.keys(repeat).filter(item => repeat[item].isOn);
+    console.log(repeatIsOn);
+
     switch (repeatIsOn.length) {
       case 7:
         setRepeatText('매일');
@@ -44,14 +46,17 @@ const DetailOptions: React.FC<Props> = ({
         const weekdayIsOn = repeatIsOn.filter(item => weekday.includes(item));
         if (weekdayIsOn.length === 5) {
           setRepeatText('평일');
+        } else {
+          setRepeatText(repeatIsOn.join(' '));
         }
         break;
       case 2:
         const weekendIsOn = repeatIsOn.filter(item => weekend.includes(item));
-        if (weekendIsOn.length === 5) {
-          setRepeatText('평일');
+        if (weekendIsOn.length === 2) {
+          setRepeatText('주말');
+        } else {
+          setRepeatText(repeatIsOn.join(' '));
         }
-        setRepeatText('주말');
         break;
       case 0:
         setRepeatText('안 함');
@@ -66,7 +71,7 @@ const DetailOptions: React.FC<Props> = ({
       return {
         ...prev,
         label: label,
-        repeatDay: repeatText.length !== 0 ? repeatText : '안 함',
+        repeatDay: repeatText,
       };
     });
   }, [repeatText, label]);
