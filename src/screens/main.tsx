@@ -94,12 +94,10 @@ const Main: React.FC<Props> = () => {
         `${hour + meridiemTime}:${String(minute).padStart(2, '0')}` ===
         item.time
       ) {
-        console.log('play sound');
+        alarmSound && alarmSound.stop();
         playSound(item.sound);
       } else {
-        console.log('no sound');
         if (alarmSound) {
-          console.log('stop sound');
           alarmSound.stop();
         }
       }

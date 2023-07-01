@@ -93,8 +93,8 @@ const DetailModal: React.FC<Props> = ({
   };
 
   React.useEffect(() => {
-    settingAlarm(new Date());
-  }, []);
+    settingAlarm(timeValue);
+  }, [timeValue]);
 
   const onChange = (
     event: DateTimePickerEvent,
