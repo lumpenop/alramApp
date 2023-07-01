@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -15,7 +14,6 @@ import DateTimePicker, {
 import { IAlarm } from './main';
 import DetailOptions from '../components/detail/detail.options';
 import DetailHeader from '../components/detail/detail.header';
-import RepeatModal from 'src/screens/repeat.modal';
 
 interface Props {
   isModalOn: boolean;
@@ -23,26 +21,43 @@ interface Props {
   addAlarm: (newAlarms: IAlarm) => void;
 }
 
+const defaultAlarm = {
+  label: '',
+  meridiem: '',
+  isOn: false,
+  time: '',
+  repeatDay: '',
+  sound: '',
+  snooze: '',
+};
+
+export const defaultRepeat = {
+  일: { isOn: false },
+  월: { isOn: false },
+  화: { isOn: false },
+  수: { isOn: false },
+  목: { isOn: false },
+  금: { isOn: false },
+  토: { isOn: false },
+  일: { isOn: false },
+};
+
 const DetailModal: React.FC<Props> = ({
   isModalOn,
   setIsModalOn,
   addAlarm,
 }) => {
   const [timeValue, setTimeValue] = React.useState(new Date());
-  const [alarm, setAlarm] = React.useState<IAlarm>({
-    label: '알람',
-    meridiem: '',
-    isOn: false,
-    time: '',
-    repeatDay: [],
-    sound: '',
-    snooze: '',
-  });
   const [isSnooze, setIsSnooze] = React.useState<boolean>(false);
   const [label, setLabel] = React.useState<string>('알람');
   const [sound, setSound] = React.useState<string>('전파');
-  const [repeat, setRepeat] = React.useState<string[]>(['안 함']);
-  const [isRepeatModal, setIsRepeatModal] = React.useState<boolean>(false);
+  const [repeat, setRepeat] = React.useState<RepeatType>(defaultRepeat);
+  const [alarm, setAlarm] = React.useState<IAlarm>(defaultAlarm);
+
+  React.useEffect(() => {
+    setRepeat(defaultRepeat);
+    setLabel('알람');
+  }, [isModalOn]);
 
   const makeToStringTime = (selectedTime: Date) => {
     const toStingTime = selectedTime.toLocaleTimeString('ko-KR', {
@@ -61,7 +76,6 @@ const DetailModal: React.FC<Props> = ({
         ...prev,
         meridiem,
         time,
-        repeatDay: prev.repeatDay.length !== 0 ? prev.repeatDay : ['안 함'],
       };
     });
   };
@@ -88,11 +102,6 @@ const DetailModal: React.FC<Props> = ({
 
   return (
     <Modal visible={isModalOn} transparent animationType={'slide'}>
-      <RepeatModal
-        isRepeatModal={isRepeatModal}
-        setIsRepeatModal={setIsRepeatModal}
-        setRepeat={setRepeat}
-      />
       <SafeAreaView
         style={{
           flex: 1,
@@ -135,6 +144,7 @@ const DetailModal: React.FC<Props> = ({
                 setSound={setSound}
                 label={label}
                 setLabel={setLabel}
+                setAlarm={setAlarm}
               />
             </ScrollView>
           </View>

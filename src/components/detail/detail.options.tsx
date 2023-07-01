@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Switch, TextInput } from 'react-native';
 import colors from '../../theme/colors';
 import textTheme from 'src/theme/text.theme';
 import RightChevron from 'src/asset/svgs/chevron-right.svg';
-import { useNavigation } from '@react-navigation/native';
-import { ModalStackParamsType } from '~/src/navigation/modal.stack.navigator';
-import { NativeStackNavigationProp } from 'react-native-screens/native-stack';
+import RepeatModal from '../../screens/repeat.modal';
+import { IAlarm } from '../../screens/main';
 
 interface Props {
   isSnooze: boolean;
@@ -14,8 +13,9 @@ interface Props {
   setLabel: React.Dispatch<React.SetStateAction<string>>;
   sound: string;
   setSound: React.Dispatch<React.SetStateAction<string>>;
-  repeat: string[];
-  setRepeat: React.Dispatch<React.SetStateAction<string[]>>;
+  repeat: RepeatType;
+  setRepeat: React.Dispatch<React.SetStateAction<RepeatType>>;
+  setAlarm: React.Dispatch<React.SetStateAction<IAlarm>>;
 }
 
 const DetailOptions: React.FC<Props> = ({
@@ -23,26 +23,42 @@ const DetailOptions: React.FC<Props> = ({
   setIsSnooze,
   repeat,
   setRepeat,
-  setSound,
   sound,
-  setLabel,
   label,
+  setLabel,
+  setAlarm,
 }) => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<ModalStackParamsType>>();
+  const [isRepeatModalOn, setIsRepeatModalOn] = React.useState<boolean>(false);
+  const [repeatText, setRepeatText] = React.useState<string>('');
+
+  React.useEffect(() => {
+    const repeatIsOn = Object.keys(repeat).filter(item => repeat[item].isOn);
+    setRepeatText(repeatIsOn.join(' '));
+  }, [repeat]);
+
+  React.useEffect(() => {
+    setAlarm(prev => {
+      return {
+        ...prev,
+        label: label,
+        repeatDay: repeatText.length !== 0 ? repeatText : '안 함',
+      };
+    });
+  }, [repeatText, label]);
+
   const options = [
     {
       title: '반복',
       state: (
         <TouchableOpacity
-          onPress={() => navigation.navigate('Repeat')}
+          onPress={() => setIsRepeatModalOn(true)}
           style={{
             paddingRight: 4,
             flexDirection: 'row',
             alignItems: 'center',
           }}
           activeOpacity={0.6}>
-          <Text style={textTheme.basicText}>{repeat}</Text>
+          <Text style={textTheme.basicText}>{repeatText}</Text>
           <RightChevron color={textTheme.basicText.color} width={16} />
         </TouchableOpacity>
       ),
@@ -54,7 +70,8 @@ const DetailOptions: React.FC<Props> = ({
           <TextInput
             style={[textTheme.basicText]}
             placeholder={'알람'}
-            defaultValue={label}
+            value={label}
+            onChange={e => setLabel(e.nativeEvent.text)}
           />
         </View>
       ),
@@ -97,6 +114,13 @@ const DetailOptions: React.FC<Props> = ({
         marginTop: 8,
         paddingLeft: 14,
       }}>
+      <RepeatModal
+        isRepeatModalOn={isRepeatModalOn}
+        setIsRepeatModalOn={setIsRepeatModalOn}
+        repeat={repeat}
+        setRepeat={setRepeat}
+      />
+
       {options.map((item, index) => {
         return (
           <View

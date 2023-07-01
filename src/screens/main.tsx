@@ -16,7 +16,7 @@ export interface IAlarm {
   meridiem: string;
   isOn: boolean;
   time: string;
-  repeatDay: string[];
+  repeatDay: string;
   sound: string;
   snooze: string;
 }

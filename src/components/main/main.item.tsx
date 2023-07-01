@@ -48,7 +48,7 @@ const MainItem: React.FC<Props> = ({ alarm, toggleSwitch }) => {
         />
       </View>
       <Text style={[textTheme.timeText, { fontSize: 12 }]}>
-        {alarm.repeatDay.length !== 0 ? alarm.repeatDay[0] : '화목토일'}
+        {alarm.repeatDay ? alarm.repeatDay : '안 함'}
       </Text>
     </View>
   );
