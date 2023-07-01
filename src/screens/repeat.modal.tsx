@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import colors from '../theme/colors';
+import text from '../theme/text.theme';
 
 interface Props {
   repeat: RepeatType;
@@ -80,7 +81,7 @@ const RepeatModal: React.FC<Props> = ({
               반복
             </Text>
             <TouchableOpacity onPress={() => setIsRepeatModalOn(false)}>
-              <Text style={{ color: colors.white, width: 30 }}>확인</Text>
+              <Text style={{ width: 30, color: colors.gold }}>확인</Text>
             </TouchableOpacity>
           </View>
           <View
