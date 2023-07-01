@@ -31,7 +31,7 @@ const defaultAlarm: IAlarm = {
   snooze: '',
 };
 
-export const defaultRepeat = {
+const defaultRepeat = {
   일: { isOn: false },
   월: { isOn: false },
   화: { isOn: false },
@@ -58,8 +58,26 @@ const DetailModal: React.FC<Props> = ({
     setTimeValue(new Date());
     setLabel('알람');
     setSound('전파');
-    setRepeat({ ...defaultRepeat });
-    setAlarm({ ...defaultAlarm });
+    setRepeat({
+      일: { isOn: false },
+      월: { isOn: false },
+      화: { isOn: false },
+      수: { isOn: false },
+      목: { isOn: false },
+      금: { isOn: false },
+      토: { isOn: false },
+      일: { isOn: false },
+    });
+    setAlarm({
+      label: '',
+      meridiem: '',
+      isOn: true,
+      time: '',
+      repeatDay: '',
+      sound: 'iphone_alarm.mp3',
+      snooze: '',
+    });
+    console.log('hi');
   }, [isModalOn]);
 
   const makeToStringTime = (selectedTime: Date) => {
