@@ -52,7 +52,12 @@ const RepeatModal: React.FC<Props> = ({
       style={{
         flex: 1,
       }}>
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-end',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        }}>
         <View
           style={{
             height: '50%',

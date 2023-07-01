@@ -31,9 +31,34 @@ const DetailOptions: React.FC<Props> = ({
   const [isRepeatModalOn, setIsRepeatModalOn] = React.useState<boolean>(false);
   const [repeatText, setRepeatText] = React.useState<string>('');
 
+  const weekday = ['월', '화', '수', '목', '금'];
+  const weekend = ['토', '일'];
+
   React.useEffect(() => {
     const repeatIsOn = Object.keys(repeat).filter(item => repeat[item].isOn);
-    setRepeatText(repeatIsOn.join(' '));
+    switch (repeatIsOn.length) {
+      case 7:
+        setRepeatText('매일');
+        break;
+      case 5:
+        const weekdayIsOn = repeatIsOn.filter(item => weekday.includes(item));
+        if (weekdayIsOn.length === 5) {
+          setRepeatText('평일');
+        }
+        break;
+      case 2:
+        const weekendIsOn = repeatIsOn.filter(item => weekend.includes(item));
+        if (weekendIsOn.length === 5) {
+          setRepeatText('평일');
+        }
+        setRepeatText('주말');
+        break;
+      case 0:
+        setRepeatText('안 함');
+        break;
+      default:
+        setRepeatText(repeatIsOn.join(' '));
+    }
   }, [repeat]);
 
   React.useEffect(() => {
