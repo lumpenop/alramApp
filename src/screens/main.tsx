@@ -24,7 +24,6 @@ export interface IAlarm {
 }
 
 export type SoundFileType =
-  | 'iphone_alarm.mp3'
   | 'galaxy_siren.mp3'
   | 'marimba.mp3'
   | 'morning_flower.mp3'
@@ -53,6 +52,7 @@ const Main: React.FC<Props> = () => {
       // Play the sound with an onEnd callback
       Vibration.vibrate();
       console.log('vibe');
+      sound.setNumberOfLoops(-1);
       sound.play(success => {
         if (success) {
           console.log('successfully finished playing');
@@ -75,29 +75,36 @@ const Main: React.FC<Props> = () => {
   const hour = time.hour();
   const minute = time.minute();
 
-  const dayObj = ['일', '월', '화', '수', '목', '금', '토', '안 함'];
+  const dayObj = ['일', '월', '화', '수', '목', '금', '토'];
   useEffect(() => {
     console.log(dayObj[day], hour, minute);
-    const dayAlarms = alarms.filter(item =>
-      item.repeatDay.split(' ').includes(dayObj[day]),
-    );
+    const dayAlarms = alarms.filter(item => {
+      const repeatArr = item.repeatDay.split(' ');
+      console.log(repeatArr);
+      return repeatArr.includes(dayObj[day]) || repeatArr.includes('안');
+    });
 
     const filteredAlarms = dayAlarms.filter(item => item.isOn);
+    console.log(filteredAlarms, 'hi');
 
     filteredAlarms.forEach(item => {
       const meridiemTime = item.meridiem === '오후' ? 12 : 0;
 
-      if (`${hour + meridiemTime}:${minute}` === item.time) {
+      if (
+        `${hour + meridiemTime}:${String(minute).padStart(2, '0')}` ===
+        item.time
+      ) {
+        console.log('play sound');
         playSound(item.sound);
       } else {
+        console.log('no sound');
         if (alarmSound) {
+          console.log('stop sound');
           alarmSound.stop();
         }
       }
     });
-
-    console.log(filteredAlarms);
-  }, [time]);
+  }, [time, alarms]);
   // const ONE_SECOND_IN_MS = 1000;
   // const PATTERN = [
   //   1 * ONE_SECOND_IN_MS,

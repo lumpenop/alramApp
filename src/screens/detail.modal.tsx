@@ -27,7 +27,7 @@ const defaultAlarm: IAlarm = {
   isOn: true,
   time: '',
   repeatDay: '',
-  sound: 'iphone_alarm.mp3',
+  sound: 'morning_flower.mp3',
   snooze: '',
 };
 
@@ -67,15 +67,6 @@ const DetailModal: React.FC<Props> = ({
       금: { isOn: false },
       토: { isOn: false },
       일: { isOn: false },
-    });
-    setAlarm({
-      label: '',
-      meridiem: '',
-      isOn: true,
-      time: '',
-      repeatDay: '',
-      sound: 'iphone_alarm.mp3',
-      snooze: '',
     });
     console.log('hi');
   }, [isModalOn]);

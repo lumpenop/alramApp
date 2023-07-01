@@ -8,7 +8,7 @@ export const alarmData: IAlarm[] = [
     repeatDay: '화 목 토 일',
     isOn: true,
     snooze: '',
-    sound: 'iphone_alarm.mp3',
+    sound: 'morning_flower.mp3',
   },
   {
     label: '알람',
@@ -17,7 +17,7 @@ export const alarmData: IAlarm[] = [
     repeatDay: '화 목 토 일',
     isOn: true,
     snooze: '',
-    sound: 'iphone_alarm.mp3',
+    sound: 'morning_flower.mp3',
   },
   {
     label: '알람',
@@ -26,7 +26,7 @@ export const alarmData: IAlarm[] = [
     repeatDay: '화 목 토 일',
     isOn: true,
     snooze: '',
-    sound: 'iphone_alarm.mp3',
+    sound: 'morning_flower.mp3',
   },
   {
     label: '알람',
@@ -35,6 +35,6 @@ export const alarmData: IAlarm[] = [
     repeatDay: '화 목 토 일',
     isOn: true,
     snooze: '',
-    sound: 'iphone_alarm.mp3',
+    sound: 'morning_flower.mp3',
   },
 ];
