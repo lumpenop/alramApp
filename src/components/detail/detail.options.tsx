@@ -36,7 +36,6 @@ const DetailOptions: React.FC<Props> = ({
 
   React.useEffect(() => {
     const repeatIsOn = Object.keys(repeat).filter(item => repeat[item].isOn);
-    console.log(repeatIsOn);
 
     switch (repeatIsOn.length) {
       case 7:

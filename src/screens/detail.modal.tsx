@@ -58,7 +58,8 @@ const DetailModal: React.FC<Props> = ({
     setTimeValue(new Date());
     setLabel('알람');
     setSound('전파');
-    setRepeat(defaultRepeat);
+    setRepeat({ ...defaultRepeat });
+    setAlarm({ ...defaultAlarm });
   }, [isModalOn]);
 
   const makeToStringTime = (selectedTime: Date) => {
