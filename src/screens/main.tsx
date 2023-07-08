@@ -8,7 +8,6 @@ import { alarmData } from 'src/config/alarms';
 import DetailModal from './detail.modal';
 import AsyncStorage from '@react-native-community/async-storage';
 import Sound from 'react-native-sound';
-import dayjs from 'dayjs';
 import { animationInterval } from '../common/hooks/animation.interval';
 
 interface Props {}
