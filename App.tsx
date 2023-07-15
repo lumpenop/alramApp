@@ -10,12 +10,15 @@ interface Props {}
 
 const App: React.FC<Props> = () => {
   React.useEffect(() => {
-    console.log(Config.API_KEY, 'api key');
     axios
       .get(
-        'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo',
+        `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo/?ServiceKey=${
+          Config.API_KEY
+        }&pageNo
+=${1}&numOfRows=${100}&solYear=${2023}`,
       )
-      .then();
+      .then(res => console.log(res))
+      .catch(e => console.log(e, 'error'));
   }, []);
   return (
     <>

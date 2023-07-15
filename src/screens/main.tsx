@@ -64,7 +64,7 @@ const Main: React.FC<Props> = () => {
     });
     setAlarmSound(sound);
   };
-
+  //
   // React.useEffect(() => {
   //   playSound('marimba.mp3');
   // }, []);
@@ -76,7 +76,6 @@ const Main: React.FC<Props> = () => {
 
   const dayObj = ['일', '월', '화', '수', '목', '금', '토'];
   useEffect(() => {
-    console.log(dayObj[day], hour, minute);
     const dayAlarms = alarms.filter(item => {
       const repeatArr = item.repeatDay.split(' ');
       console.log(repeatArr);
@@ -84,7 +83,6 @@ const Main: React.FC<Props> = () => {
     });
 
     const filteredAlarms = dayAlarms.filter(item => item.isOn);
-    console.log(filteredAlarms, 'hi');
 
     filteredAlarms.forEach(item => {
       const meridiemTime = item.meridiem === '오후' ? 12 : 0;
@@ -93,11 +91,14 @@ const Main: React.FC<Props> = () => {
         `${hour + meridiemTime}:${String(minute).padStart(2, '0')}` ===
         item.time
       ) {
+        console.log('first stop');
         alarmSound && alarmSound.stop();
         playSound(item.sound);
       } else {
         if (alarmSound) {
+          console.log('second stop');
           alarmSound.stop();
+          setAlarmSound(null);
         }
       }
     });
