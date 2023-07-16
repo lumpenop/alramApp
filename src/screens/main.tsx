@@ -19,7 +19,7 @@ export interface IAlarm {
   time: string;
   repeatDay: string;
   sound: SoundFileType;
-  snooze: string;
+  snooze: boolean;
 }
 
 export type SoundFileType =
@@ -50,7 +50,6 @@ const Main: React.FC<Props> = () => {
 
       // Play the sound with an onEnd callback
       Vibration.vibrate();
-      console.log('vibe');
       sound.setNumberOfLoops(-1);
       sound.play(success => {
         if (success) {
@@ -86,9 +85,9 @@ const Main: React.FC<Props> = () => {
 
     filteredAlarms.forEach(item => {
       const meridiemTime = item.meridiem === '오후' ? 12 : 0;
-
+      console.log(item);
       if (
-        `${hour + meridiemTime}:${String(minute).padStart(2, '0')}` ===
+        `${hour - meridiemTime}:${String(minute).padStart(2, '0')}` ===
         item.time
       ) {
         console.log('first stop');
@@ -97,6 +96,7 @@ const Main: React.FC<Props> = () => {
       } else {
         if (alarmSound) {
           console.log('second stop');
+          console.log(item.snooze);
           alarmSound.stop();
           setAlarmSound(null);
         }
