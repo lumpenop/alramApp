@@ -5,6 +5,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import colors from './src/theme/colors';
 import axios, { AxiosResponse } from 'axios';
 import Config from 'react-native-config';
+import { holidayData } from './src/config/holiday';
 
 interface Props {}
 
@@ -19,38 +20,8 @@ const App: React.FC<Props> = () => {
     _type: 'json',
   };
 
-  type holidayResponseType = {
-    response: {
-      header: {
-        resultCode: string;
-        resultMsg: string;
-      };
-      body: {
-        items: {
-          item: {
-            dateKind: string;
-            dateName: string;
-            isHoliday: string;
-            locdate: number;
-            seq: number;
-          };
-        };
-        numOfRows: number;
-        pageNo: number;
-        totalCount: number;
-      };
-    };
-  };
-  const holidayGet = async () => {
-    const response = await axios.get<
-      Promise<AxiosResponse<holidayResponseType>>
-    >(url, {
-      params,
-    });
-    console.log(response.data.response.body.items);
-  };
   React.useEffect(() => {
-    holidayGet().then();
+    console.log(holidayData);
   }, []);
   return (
     <>
