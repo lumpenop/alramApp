@@ -3,7 +3,6 @@ import { SafeAreaView, StatusBar, View } from 'react-native';
 import Main from './src/screens/main';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import colors from './src/theme/colors';
-import axios, { AxiosResponse } from 'axios';
 import Config from 'react-native-config';
 import { holidayData } from './src/config/holiday';
 

@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "^7.1.0",
+    "@react-native-firebase/app": "^18.3.0",
     "axios": "^1.4.0",
     "dayjs": "^1.11.8",
     "i": "^0.3.7",
