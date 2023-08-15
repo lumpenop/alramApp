@@ -14,13 +14,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		29D2BD7090097D4EADB09370 /* libPods-alramApp-alramAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3AE291B37AFF9A7BA45CCC /* libPods-alramApp-alramAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D0E2107F2A88E6A700BA4D39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0E2107E2A88E6A700BA4D39 /* GoogleService-Info.plist */; };
 		D0EECB462A366A230077B264 /* iphone_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0EECB452A366A230077B264 /* iphone_alarm.mp3 */; };
 		D0EECB4C2A3676FE0077B264 /* original_iphone_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0EECB472A3676FD0077B264 /* original_iphone_alarm.mp3 */; };
 		D0EECB4D2A3676FE0077B264 /* marimba.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0EECB482A3676FE0077B264 /* marimba.mp3 */; };
 		D0EECB4E2A3676FE0077B264 /* siren_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0EECB492A3676FE0077B264 /* siren_1.mp3 */; };
 		D0EECB4F2A3676FE0077B264 /* morning_flower.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0EECB4A2A3676FE0077B264 /* morning_flower.mp3 */; };
 		D0EECB502A3676FE0077B264 /* galaxy_siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0EECB4B2A3676FE0077B264 /* galaxy_siren.mp3 */; };
-		D0FB12C12A861F3B00A1890B /* GoogleService-Info .plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB12C02A861F3B00A1890B /* GoogleService-Info .plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,13 +47,13 @@
 		A85456D1BF0C9FF8C6FFE8A7 /* libPods-alramApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-alramApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB3AE291B37AFF9A7BA45CCC /* libPods-alramApp-alramAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-alramApp-alramAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0498562BC0FEB432ED6C24D /* Pods-alramApp-alramAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-alramApp-alramAppTests.debug.xcconfig"; path = "Target Support Files/Pods-alramApp-alramAppTests/Pods-alramApp-alramAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D0E2107E2A88E6A700BA4D39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D0EECB452A366A230077B264 /* iphone_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = iphone_alarm.mp3; path = ../src/asset/sound/iphone_alarm.mp3; sourceTree = "<group>"; };
 		D0EECB472A3676FD0077B264 /* original_iphone_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = original_iphone_alarm.mp3; path = ../src/asset/sound/original_iphone_alarm.mp3; sourceTree = "<group>"; };
 		D0EECB482A3676FE0077B264 /* marimba.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = marimba.mp3; path = ../src/asset/sound/marimba.mp3; sourceTree = "<group>"; };
 		D0EECB492A3676FE0077B264 /* siren_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = siren_1.mp3; path = ../src/asset/sound/siren_1.mp3; sourceTree = "<group>"; };
 		D0EECB4A2A3676FE0077B264 /* morning_flower.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = morning_flower.mp3; path = ../src/asset/sound/morning_flower.mp3; sourceTree = "<group>"; };
 		D0EECB4B2A3676FE0077B264 /* galaxy_siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = galaxy_siren.mp3; path = ../src/asset/sound/galaxy_siren.mp3; sourceTree = "<group>"; };
-		D0FB12C02A861F3B00A1890B /* GoogleService-Info .plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		D77055DBC347A8E0F6A6344D /* Pods-alramApp-alramAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-alramApp-alramAppTests.release.xcconfig"; path = "Target Support Files/Pods-alramApp-alramAppTests/Pods-alramApp-alramAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		DF131E2FF2B78FF3710B4FD2 /* Pods-alramApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-alramApp.debug.xcconfig"; path = "Target Support Files/Pods-alramApp/Pods-alramApp.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -100,7 +100,7 @@
 		13B07FAE1A68108700A75B9A /* alramApp */ = {
 			isa = PBXGroup;
 			children = (
-				D0FB12C02A861F3B00A1890B /* GoogleService-Info .plist */,
+				D0E2107E2A88E6A700BA4D39 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -266,12 +266,12 @@
 			files = (
 				D0EECB462A366A230077B264 /* iphone_alarm.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				D0E2107F2A88E6A700BA4D39 /* GoogleService-Info.plist in Resources */,
 				D0EECB4C2A3676FE0077B264 /* original_iphone_alarm.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D0EECB502A3676FE0077B264 /* galaxy_siren.mp3 in Resources */,
 				D0EECB4E2A3676FE0077B264 /* siren_1.mp3 in Resources */,
 				D0EECB4F2A3676FE0077B264 /* morning_flower.mp3 in Resources */,
-				D0FB12C12A861F3B00A1890B /* GoogleService-Info .plist in Resources */,
 				D0EECB4D2A3676FE0077B264 /* marimba.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

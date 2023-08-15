@@ -9,6 +9,7 @@ import DetailModal from './detail.modal';
 import AsyncStorage from '@react-native-community/async-storage';
 import Sound from 'react-native-sound';
 import { animationInterval } from '../common/hooks/animation.interval';
+import AlarmStopModal from './alarm.stop.modal';
 
 interface Props {}
 
@@ -28,11 +29,15 @@ export type SoundFileType =
   | 'morning_flower.mp3'
   | 'original_iphone_alarm.mp3';
 
+type StopType = (cb?: (() => void) | undefined) => Sound;
+
 Sound.setCategory('Playback');
 const Main: React.FC<Props> = () => {
+  const alarmsRef = React.useRef<Sound | null>(null);
   const [alarms, setAlarms] = React.useState<IAlarm[]>(alarmData);
   const [isDetailModalOn, setIsDetailModalOn] = React.useState<boolean>(false);
   const [alarmSound, setAlarmSound] = React.useState<Sound | null>(null);
+  const [isRing, setIsRing] = React.useState<boolean>(false);
 
   const playSound = (fileName: SoundFileType) => {
     const sound = new Sound(fileName, Sound.MAIN_BUNDLE, error => {
@@ -61,7 +66,7 @@ const Main: React.FC<Props> = () => {
         console.log('vibe cancel');
       });
     });
-    setAlarmSound(sound);
+    alarmsRef.current = sound;
   };
   //
   // React.useEffect(() => {
@@ -90,13 +95,10 @@ const Main: React.FC<Props> = () => {
         `${hour - meridiemTime}:${String(minute).padStart(2, '0')}` ===
         item.time
       ) {
-        console.log('first stop');
-        alarmSound && alarmSound.stop();
         playSound(item.sound);
+        setIsRing(true);
       } else {
         if (alarmSound) {
-          console.log('second stop');
-          console.log(item.snooze);
           alarmSound.stop();
           setAlarmSound(null);
         }
@@ -185,6 +187,9 @@ const Main: React.FC<Props> = () => {
         paddingTop: 10,
       }}>
       <MainHeader setIsModalOn={setIsDetailModalOn} />
+      {isRing && (
+        <AlarmStopModal setIsRing={setIsRing} alarm={alarmsRef.current} />
+      )}
       <DetailModal
         isModalOn={isDetailModalOn}
         setIsModalOn={setIsDetailModalOn}
