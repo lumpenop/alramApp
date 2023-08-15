@@ -8,6 +8,7 @@ interface Props {
 }
 
 const AlarmStopModal: React.FC<Props> = ({ setIsRing, alarm }) => {
+  console.log(alarm, 'modal');
   return (
     <View
       style={{

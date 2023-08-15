@@ -29,8 +29,6 @@ export type SoundFileType =
   | 'morning_flower.mp3'
   | 'original_iphone_alarm.mp3';
 
-type StopType = (cb?: (() => void) | undefined) => Sound;
-
 Sound.setCategory('Playback');
 const Main: React.FC<Props> = () => {
   const alarmsRef = React.useRef<Sound | null>(null);
@@ -38,6 +36,7 @@ const Main: React.FC<Props> = () => {
   const [isDetailModalOn, setIsDetailModalOn] = React.useState<boolean>(false);
   const [alarmSound, setAlarmSound] = React.useState<Sound | null>(null);
   const [isRing, setIsRing] = React.useState<boolean>(false);
+  const [nowSound, setNowSound] = React.useState<Sound | null>(null);
 
   const playSound = (fileName: SoundFileType) => {
     const sound = new Sound(fileName, Sound.MAIN_BUNDLE, error => {
@@ -63,9 +62,12 @@ const Main: React.FC<Props> = () => {
           console.log('playback failed due to audio decoding errors');
         }
         Vibration.cancel();
+        Vibration.cancel();
         console.log('vibe cancel');
       });
     });
+    console.log(sound, 'dsd');
+    setNowSound(sound);
     alarmsRef.current = sound;
   };
   //
@@ -90,7 +92,6 @@ const Main: React.FC<Props> = () => {
 
     filteredAlarms.forEach(item => {
       const meridiemTime = item.meridiem === '오후' ? 12 : 0;
-      console.log(item);
       if (
         `${hour - meridiemTime}:${String(minute).padStart(2, '0')}` ===
         item.time
@@ -148,6 +149,13 @@ const Main: React.FC<Props> = () => {
 
   const addAlarm = (alarm: IAlarm) => {
     setAlarms(prev => {
+      const prevAlarms = prev.map(item => item.time);
+      const isSameTime = prevAlarms.indexOf(alarm.time);
+      console.log(isSameTime);
+      if (isSameTime !== -1) {
+        return prev;
+      }
+
       const newAlarms = [...prev, alarm];
       newAlarms.sort((a, b) => {
         const aTime = meridiemTime(a.time, a.meridiem);
@@ -187,9 +195,7 @@ const Main: React.FC<Props> = () => {
         paddingTop: 10,
       }}>
       <MainHeader setIsModalOn={setIsDetailModalOn} />
-      {isRing && (
-        <AlarmStopModal setIsRing={setIsRing} alarm={alarmsRef.current} />
-      )}
+      {isRing && <AlarmStopModal setIsRing={setIsRing} alarm={nowSound} />}
       <DetailModal
         isModalOn={isDetailModalOn}
         setIsModalOn={setIsDetailModalOn}
